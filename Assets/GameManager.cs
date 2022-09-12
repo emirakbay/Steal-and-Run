@@ -9,13 +9,14 @@ public class GameManager : MonoBehaviour
 
     private bool isGameOver = false;
 
+    private Thief Thief;
+
     public static GameManager Instance
     {
         get
         {
             if (instance == null)
                 Debug.LogError("Game Manager is Null!!!");
-
 
             return instance;
         }

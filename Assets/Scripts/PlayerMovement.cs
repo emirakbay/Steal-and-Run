@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (GameManager.Instance.HasGameStarted == true)
         {
+            GetComponent<Thief>().IsRunning = true;
             Move();
         }
     }

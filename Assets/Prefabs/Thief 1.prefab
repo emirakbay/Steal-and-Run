@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4266859402717030138}
   - component: {fileID: 2373705055132539851}
   - component: {fileID: 8921264422819975121}
+  - component: {fileID: -8164481701503967643}
   m_Layer: 0
   m_Name: Thief 1
   m_TagString: Untagged
@@ -54,7 +55,7 @@ Animator:
   m_GameObject: {fileID: 8926714650924559872}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 6ff98783d10689e4199627949324d20f, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2101e6e820626674b9b0a5670be6b13b, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -109,10 +110,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eb4e4f775165cb4eb07e2a9f9a48bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkRadius: 0
+  checkRadius: 1
   checkLayers:
     serializedVersion: 2
     m_Bits: 1024
+  leftHandColliderOffset: {x: -1.33, y: -3.25, z: 0}
+  rightHandColliderOffset: {x: 1.33, y: -3.25, z: 0}
 --- !u!114 &8921264422819975121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +126,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efd793522f4866f4d9d9f63b425e409f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8164481701503967643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8926714650924559872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9d7e94f4727bb647b9b81f561ad2630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8926714650924559874

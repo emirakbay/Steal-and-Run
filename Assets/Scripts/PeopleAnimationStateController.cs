@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationStateController : MonoBehaviour
+public class PeopleAnimationStateController : MonoBehaviour
 {
     private People People;
     private Animator animator;

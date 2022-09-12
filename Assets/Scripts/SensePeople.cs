@@ -6,6 +6,8 @@ public class SensePeople : MonoBehaviour
     private People people;
     public float checkRadius;
     public LayerMask checkLayers;
+    public Vector3 leftHandColliderOffset;
+    public Vector3 rightHandColliderOffset;
 
     //public Transform rightArm;
     //public Transform leftArm;
@@ -18,41 +20,42 @@ public class SensePeople : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, checkRadius);
+        Gizmos.DrawWireSphere(transform.position - leftHandColliderOffset, checkRadius);
+        Gizmos.DrawWireSphere(transform.position - rightHandColliderOffset, checkRadius);
     }
 
     private void CheckPeopleLocation()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, checkRadius, checkLayers);
+        Collider[] rightHandSideColliders = Physics.OverlapSphere(transform.position - leftHandColliderOffset, checkRadius, checkLayers);
+        Collider[] leftHandSideColliders = Physics.OverlapSphere(transform.position - rightHandColliderOffset, checkRadius, checkLayers);
 
-        Array.Sort(colliders, new DistanceComparer(transform));
+        Array.Sort(leftHandSideColliders, new DistanceComparer(transform));
+        Array.Sort(rightHandSideColliders, new DistanceComparer(transform));
 
-        if (colliders.Length > 0)
+        if (leftHandSideColliders.Length > 0 && rightHandSideColliders.Length > 0)
         {
-            foreach (Collider coll in colliders)
+            foreach (Collider coll in leftHandSideColliders)
             {
                 People hitObj = coll.GetComponent<People>();
                 hitObj.IsNervous = true;
             }
+        }
 
-            // Remove collider
-            if (colliders.Length == 1)
+        else if (rightHandSideColliders.Length > 0 && leftHandSideColliders.Length == 0)
+        {
+            foreach (Collider coll in rightHandSideColliders)
             {
-                // left side sense
-                if (colliders[0].transform.position.x < transform.position.x)
-                {
-                    Debug.Log("people on your left");
-                }
-                // right side sense
-                if (colliders[0].transform.position.x > transform.position.x)
-                {
-                    Debug.Log("people on your right");
-                }
+                People hitObj = coll.GetComponent<People>();
+                hitObj.IsNervous = true;
             }
+        }
 
-            else if (colliders.Length > 1)
+        else if (leftHandSideColliders.Length > 0 && rightHandSideColliders.Length == 0)
+        {
+            foreach (Collider coll in leftHandSideColliders)
             {
-                Debug.Log("both");
+                People hitObj = coll.GetComponent<People>();
+                hitObj.IsNervous = true;
             }
         }
     }
