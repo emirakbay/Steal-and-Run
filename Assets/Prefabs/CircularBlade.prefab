@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 5061882872078081953}
   - component: {fileID: 8183234253653676036}
   - component: {fileID: 6229682780729959630}
+  - component: {fileID: 8618957677557449122}
+  - component: {fileID: 5964676932938575172}
   m_Layer: 0
   m_Name: CircularBlade
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,3 +85,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8618957677557449122
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581291497064056091}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.39999998, z: 0.05}
+  m_Center: {x: 0.00000008195639, y: 0, z: 0}
+--- !u!114 &5964676932938575172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5581291497064056091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8ae945b25afdf44a7ea1ba5b5e2581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  rotationSpeed: 200
+  xAngle: 0
+  yAngle: 0
+  zAngle: -1

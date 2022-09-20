@@ -21,5 +21,11 @@ public class PeopleAnimationStateController : MonoBehaviour
         {
             animator.SetBool("isNervous", true);
         }
+
+        //if (People.IsChasing == true)
+        //{
+        //    animator.SetBool("isChasing", true);
+        //    animator.SetBool("isNervous", false);
+        //}
     }
 }

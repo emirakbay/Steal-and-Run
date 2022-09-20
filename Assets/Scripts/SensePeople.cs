@@ -1,16 +1,26 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Threading;
 
 public class SensePeople : MonoBehaviour
 {
-    private People people;
+    private Thief thief;
     public float checkRadius;
+    public float bothCheck;
+
     public LayerMask checkLayers;
+    public LayerMask bothCheckLayer;
+
     public Vector3 leftHandColliderOffset;
     public Vector3 rightHandColliderOffset;
+    public Vector3 bothHandColliderOffset;
 
-    //public Transform rightArm;
-    //public Transform leftArm;
+    private void Awake()
+    {
+        thief = GetComponent<Thief>();
+    }
 
     private void Update()
     {
@@ -22,41 +32,66 @@ public class SensePeople : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position - leftHandColliderOffset, checkRadius);
         Gizmos.DrawWireSphere(transform.position - rightHandColliderOffset, checkRadius);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position + bothHandColliderOffset, bothCheck);
     }
 
     private void CheckPeopleLocation()
     {
-        Collider[] rightHandSideColliders = Physics.OverlapSphere(transform.position - leftHandColliderOffset, checkRadius, checkLayers);
-        Collider[] leftHandSideColliders = Physics.OverlapSphere(transform.position - rightHandColliderOffset, checkRadius, checkLayers);
+        Collider[] rightHandSideCollider = Physics.OverlapSphere(transform.position - leftHandColliderOffset, checkRadius, checkLayers);
+        Collider[] leftHandSideCollider = Physics.OverlapSphere(transform.position - rightHandColliderOffset, checkRadius, checkLayers);
 
-        Array.Sort(leftHandSideColliders, new DistanceComparer(transform));
-        Array.Sort(rightHandSideColliders, new DistanceComparer(transform));
+        Collider[] bothHandCollider = Physics.OverlapSphere(transform.position + bothHandColliderOffset, bothCheck, bothCheckLayer);
 
-        if (leftHandSideColliders.Length > 0 && rightHandSideColliders.Length > 0)
+        if (bothHandCollider.Length > 0)
         {
-            foreach (Collider coll in leftHandSideColliders)
+            thief.IsStealing = true;
+            foreach (Collider coll in bothHandCollider[0].gameObject.GetComponentsInChildren<Collider>())
             {
-                People hitObj = coll.GetComponent<People>();
-                hitObj.IsNervous = true;
+                coll.enabled = false;
+            }
+            People[] hitObj = bothHandCollider[0].GetComponentsInChildren<People>();
+            if (hitObj != null)
+            {
+                foreach (People ppl in hitObj)
+                {
+                    ppl.transform.parent = null;
+                    ppl.IsNervous = true;
+                    //ppl.Rotating = true;
+                    //ppl.IsChasing = true;
+                }
             }
         }
-
-        else if (rightHandSideColliders.Length > 0 && leftHandSideColliders.Length == 0)
+        else if (bothHandCollider.Length == 0)
         {
-            foreach (Collider coll in rightHandSideColliders)
-            {
-                People hitObj = coll.GetComponent<People>();
-                hitObj.IsNervous = true;
-            }
+            thief.IsStealing = false;
         }
 
-        else if (leftHandSideColliders.Length > 0 && rightHandSideColliders.Length == 0)
+        if (leftHandSideCollider.Length > 0)
         {
-            foreach (Collider coll in leftHandSideColliders)
-            {
-                People hitObj = coll.GetComponent<People>();
-                hitObj.IsNervous = true;
-            }
+            thief.IsLeft = true;
+            People hitObj = leftHandSideCollider[0].GetComponent<People>();
+            hitObj.transform.parent = null;
+            hitObj.IsNervous = true;
+            //hitObj.IsChasing = true;
+        }
+        else if (leftHandSideCollider.Length == 0)
+        {
+            thief.IsLeft = false;
+        }
+
+        if (rightHandSideCollider.Length > 0)
+        {
+            thief.IsRight = true;
+            People hitObj = rightHandSideCollider[0].GetComponent<People>();
+            hitObj.transform.parent = null;
+            hitObj.IsNervous = true;
+            //hitObj.IsChasing = true;
+        }
+        else if (rightHandSideCollider.Length == 0)
+        {
+            thief.IsRight = false;
         }
     }
 }

@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
 
+    public Vector3 MoveDirection { get => moveDirection; set => moveDirection = value; }
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -22,24 +24,37 @@ public class PlayerMovement : MonoBehaviour
         if (GameManager.Instance.HasGameStarted == true)
         {
             GetComponent<Thief>().IsRunning = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (GameManager.Instance.HasGameStarted == true)
+        {
             Move();
         }
     }
+
     private void Move()
     {
         float moveX = Input.GetAxis("Horizontal");
 
-        moveDirection = new Vector3(moveX * slidingFactor, 0, verticalSpeed * Time.deltaTime);
+        MoveDirection = new Vector3(moveX * slidingFactor, 0, verticalSpeed * Time.deltaTime);
 
-        controller.Move(moveDirection);
+        controller.Move(MoveDirection);
 
-        if (moveDirection != Vector3.zero)
+        if (MoveDirection != Vector3.zero)
         {
-            transform.forward = moveDirection;
+            transform.forward = MoveDirection;
 
-            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            Quaternion toRotation = Quaternion.LookRotation(MoveDirection, Vector3.up);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other);
     }
 }
