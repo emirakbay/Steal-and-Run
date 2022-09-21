@@ -140,9 +140,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.6590909
+  m_TransitionDuration: 0.09001735
+  m_TransitionOffset: 0.00921653
+  m_ExitTime: 0.3517689
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -238,13 +238,13 @@ AnimatorStateMachine:
     m_Position: {x: 200, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1941013928565168578}
-    m_Position: {x: -20, y: -40, z: 0}
+    m_Position: {x: -10, y: -40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5040709622613273949}
-    m_Position: {x: 430, y: -40, z: 0}
+    m_Position: {x: 410, y: -40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4561086587579831273}
-    m_Position: {x: 210, y: -40, z: 0}
+    m_Position: {x: 200, y: -40, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -288,7 +288,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: StealBoth
-  m_Speed: 2
+  m_Speed: 10
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8366689358828079127}

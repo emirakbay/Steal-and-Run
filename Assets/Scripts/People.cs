@@ -7,13 +7,13 @@ public class People : MonoBehaviour
 {
     private bool _isChasing = false;
     private bool _isNervous = false;
+    private bool rotating = false;
 
     private float speed = 2f;
 
     Vector3 relativePos;
     Quaternion targetRotation;
     public Transform target;
-    bool rotating = false;
     float rotationTime;
 
     private void Awake()
@@ -23,8 +23,6 @@ public class People : MonoBehaviour
     private void Update()
     {
         Vector3 moveDir = FindObjectOfType<PlayerMovement>().MoveDirection;
-
-
         if (IsNervous)
             Rotate();
 
@@ -39,7 +37,6 @@ public class People : MonoBehaviour
                 Quaternion toRotation = Quaternion.LookRotation(moveDir, Vector3.up);
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, speed * Time.deltaTime);
-
             }
         }
     }
@@ -55,14 +52,12 @@ public class People : MonoBehaviour
 
         if (rotating)
         {
-            Debug.Log("started");
             rotationTime += Time.deltaTime * 1.0f;
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationTime * Time.deltaTime);
         }
 
         if (rotationTime > 0.2f)
         {
-            Debug.Log("finished");
             rotating = false;
         }
     }

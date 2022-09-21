@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
+
         float moveX = Input.GetAxis("Horizontal");
 
         MoveDirection = new Vector3(moveX * slidingFactor, 0, verticalSpeed * Time.deltaTime);
@@ -55,6 +56,5 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other);
     }
 }

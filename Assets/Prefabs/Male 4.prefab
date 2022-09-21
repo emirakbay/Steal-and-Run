@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 843415102815824171}
   m_Layer: 10
   m_Name: Male 4
-  m_TagString: Untagged
+  m_TagString: People
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -612,9 +612,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5073663573388937109}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.38
+  m_Radius: 0.25
   m_Height: 1.9
   m_Direction: 1
   m_Center: {x: 0, y: 0.89, z: 0}
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1f2aad6c14d6d4db7f93b212c1e25d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 7064696374290998052, guid: 6ceaa1a147012b24eaa570a774df3a7c, type: 3}
+  target: {fileID: 2437849277272113214, guid: 6ceaa1a147012b24eaa570a774df3a7c, type: 3}
 --- !u!1 &5073663573388937111
 GameObject:
   m_ObjectHideFlags: 0
