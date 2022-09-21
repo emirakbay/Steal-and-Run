@@ -31,6 +31,9 @@ public class ObstacleMovement : MonoBehaviour
     {
         Rotate();
         LerpBetweenPoints();
+
+        if (GameManager.Instance.IsGameOver)
+            GetComponent<BoxCollider>().isTrigger = false;
     }
 
     private void LerpBetweenPoints()

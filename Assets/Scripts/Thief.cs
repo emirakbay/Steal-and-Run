@@ -22,11 +22,18 @@ public class Thief : MonoBehaviour
 
     private void Start()
     {
-        //setRigidbodyState(true);
-        //setColliderState(false);
+        setRigidbodyState(true);
+        setColliderState(false);
     }
 
-    private void die()
+    private void Die()
+    {
+        GetComponent<Animator>().enabled = false;
+        setRigidbodyState(false);
+        setColliderState(true);
+    }
+
+    private void Update()
     {
     }
 
@@ -38,6 +45,11 @@ public class Thief : MonoBehaviour
         {
             rigidbody.isKinematic = state;
         }
+
+        if (GetComponent<Rigidbody>())
+        {
+            GetComponent<Rigidbody>().isKinematic = !state;
+        }
     }
 
     private void setColliderState(bool state)
@@ -45,7 +57,18 @@ public class Thief : MonoBehaviour
         Collider[] colliders = GetComponentsInChildren<Collider>();
         foreach (Collider collider in colliders)
         {
-            //collider.enabled = state;
+            if (collider.name == "Thief")
+                continue;
+            collider.enabled = state;
         }
+        GetComponent<Collider>().enabled = !state;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        IsDead = true;
+        Die();
+
+        GameManager.Instance.GameOver(true);
     }
 }

@@ -13,11 +13,17 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
 
+    private Thief thief;
+
     public Vector3 MoveDirection { get => moveDirection; set => moveDirection = value; }
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
+
+        //sthief
+
+
     }
     private void Update()
     {
@@ -54,7 +60,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+
+
+    //    // player dead
+    //    // enable ragdoll body
+
+
+
+    //    Debug.Log("collided");
+    //    Debug.Log(other.gameObject.name);
+
+
+    //}
 }

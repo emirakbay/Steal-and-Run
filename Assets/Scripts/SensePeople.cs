@@ -100,7 +100,6 @@ public class SensePeople : MonoBehaviour
         //    }
         //}
 
-
         if (bothHandCollider.Length > 0)
         {
             foreach (Collider collider in bothHandCollider)
