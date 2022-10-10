@@ -1,24 +1,28 @@
+using System.Collections;
 using UnityEngine;
 
 public class Thief : MonoBehaviour
 {
-    private int currentGold;
+    private int currentCash;
 
     private bool isRunning = false;
+    private bool isSprinting = false;
     private bool isStealing = false;
     private bool isDead = false;
     private bool isLeft = false;
     private bool isRight = false;
 
-    private float stealStreak;
+    private bool stealStreak;
 
+
+    public bool StealStreak { get => stealStreak; set => stealStreak = value; }
+    public int CurrentCash { get => currentCash; set => currentCash = value; }
     public bool IsRunning { get => isRunning; set => isRunning = value; }
-    public int CurrentGold { get => currentGold; set => currentGold = value; }
-    public float StealStreak { get => stealStreak; set => stealStreak = value; }
     public bool IsStealing { get => isStealing; set => isStealing = value; }
     public bool IsLeft { get => isLeft; set => isLeft = value; }
     public bool IsRight { get => isRight; set => isRight = value; }
     public bool IsDead { get => isDead; set => isDead = value; }
+    public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
 
     private void Start()
     {
@@ -26,15 +30,15 @@ public class Thief : MonoBehaviour
         setColliderState(false);
     }
 
+    private void Update()
+    {
+    }
+
     private void Die()
     {
         GetComponent<Animator>().enabled = false;
         setRigidbodyState(false);
         setColliderState(true);
-    }
-
-    private void Update()
-    {
     }
 
     private void setRigidbodyState(bool state)
@@ -66,9 +70,21 @@ public class Thief : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        IsDead = true;
-        Die();
 
-        GameManager.Instance.GameOver(true);
+        if (other.CompareTag("Obstacle"))
+        {
+            IsDead = true;
+            Die();
+            GameManager.Instance.GameOver(true);
+        }
+    }
+
+    public IEnumerator SpeedUp(float boostTime)
+    {
+        IsSprinting = true;
+        GetComponent<ThiefParticleController>().PlaySpeedUpParticle();
+        yield return new WaitForSeconds(boostTime);
+        GetComponent<ThiefParticleController>().StopSpeedUpParticle();
+        IsSprinting = false;
     }
 }

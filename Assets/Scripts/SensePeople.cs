@@ -1,8 +1,7 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Threading;
+using UnityEngine.UIElements;
+
 
 public class SensePeople : MonoBehaviour
 {
@@ -17,6 +16,7 @@ public class SensePeople : MonoBehaviour
     public Vector3 rightHandColliderOffset;
     public Vector3 bothHandColliderOffset;
 
+
     private void Awake()
     {
         thief = GetComponent<Thief>();
@@ -27,17 +27,17 @@ public class SensePeople : MonoBehaviour
         CheckPeopleLocation();
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + leftHandColliderOffset, checkRadius);
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(transform.position + leftHandColliderOffset, checkRadius);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position + rightHandColliderOffset, checkRadius);
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawWireSphere(transform.position + rightHandColliderOffset, checkRadius);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position + bothHandColliderOffset, bothCheck);
-    }
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawWireSphere(transform.position + bothHandColliderOffset, bothCheck);
+    //}
 
     private void CheckPeopleLocation()
     {
@@ -45,88 +45,44 @@ public class SensePeople : MonoBehaviour
         Collider[] leftHandSideCollider = Physics.OverlapSphere(transform.position + leftHandColliderOffset, checkRadius, checkLayers);
         Collider[] bothHandCollider = Physics.OverlapSphere(transform.position + bothHandColliderOffset, bothCheck, bothCheckLayer);
 
-        //foreach (Collider collider in bothHandCollider)
-        //{
-        //    if (collider.CompareTag("People"))
-        //    {
-        //        if (collider.transform.position.x > transform.position.x)
-        //        {
-        //            thief.IsRight = true;
-        //        }
-        //        else if (collider.transform.position.x < transform.position.x)
-        //        s
-        //            thief.IsLeft = true;
-        //        }
-        //    }
-
-        //    else if (collider.CompareTag("Tether"))
-        //    {
-        //        thief.IsStealing = true;
-        //        foreach (Collider coll in bothHandCollider[0].gameObject.GetComponentsInChildren<Collider>())
-        //        {
-        //            coll.enabled = false;
-        //        }
-        //        People[] hitObj = bothHandCollider[0].GetComponentsInChildren<People>();
-        //        if (hitObj != null)
-        //        {
-        //            foreach (People ppl in hitObj)
-        //            {
-        //                ppl.transform.parent = null;
-        //                ppl.IsNervous = true;
-        //                //ppl.Rotating = true;
-        //                //ppl.IsChasing = true;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //if (bothHandCollider.Length > 0)
-        //{
-        //    thief.IsStealing = true;
-        //    foreach (Collider coll in bothHandCollider[0].gameObject.GetComponentsInChildren<Collider>())
-        //    {
-        //        coll.enabled = false;
-        //    }
-        //    People[] hitObj = bothHandCollider[0].GetComponentsInChildren<People>();
-        //    if (hitObj != null)
-        //    {
-        //        foreach (People ppl in hitObj)
-        //        {
-        //            ppl.transform.parent = null;
-        //            ppl.IsNervous = true;
-        //            //ppl.Rotating = true;
-        //            //ppl.IsChasing = true;
-        //        }
-        //    }
-        //}
-
         if (bothHandCollider.Length > 0)
         {
             foreach (Collider collider in bothHandCollider)
             {
                 if (collider.CompareTag("People"))
                 {
-                    if (collider.transform.position.x > transform.position.x)
+                    if (collider.GetComponentInParent<Collider>())
                     {
-                        thief.IsRight = true;
                         People hitObj = collider.GetComponent<People>();
                         hitObj.transform.parent = null;
                         hitObj.IsNervous = true;
-                    }
+                        thief.StealStreak = true;
+                        GameManager.Instance.PowerUpScore += 10.0f;
+                        StartCoroutine(thief.SpeedUp(1.0f));
+                        if (collider.transform.position.x > transform.position.x)
+                        {
+                            thief.IsRight = true;
+                        }
 
-                    else if (collider.transform.position.x < transform.position.x)
-                    {
-                        thief.IsLeft = true;
-                        People hitObj = collider.GetComponent<People>();
-                        hitObj.transform.parent = null;
-                        hitObj.IsNervous = true;
+                        else if (collider.transform.position.x < transform.position.x)
+                        {
+                            thief.IsLeft = true;
+                        }
                     }
                 }
 
                 else if (collider.CompareTag("Tether"))
                 {
-                    collider.enabled = false;
+                    foreach (People people in collider.gameObject.GetComponentsInChildren<People>())
+                    {
+                        people.IsNervous = true;
+                    }
+                    StartCoroutine(thief.SpeedUp(2.0f));
+                    collider.transform.DetachChildren();
+                    Destroy(collider.gameObject);
                     thief.IsStealing = true;
+                    thief.StealStreak = true;
+                    GameManager.Instance.PowerUpScore += 20.0f;
                 }
             }
         }
@@ -142,31 +98,46 @@ public class SensePeople : MonoBehaviour
         else if (bothHandCollider.Length == 0)
         {
             thief.IsStealing = false;
+            thief.StealStreak = false;
         }
 
         if (leftHandSideCollider.Length > 0)
         {
-            thief.IsLeft = true;
-            People hitObj = leftHandSideCollider[0].GetComponent<People>();
-            hitObj.transform.parent = null;
-            hitObj.IsNervous = true;
-            //hitObj.IsChasing = true;
+            if (leftHandSideCollider[0].gameObject.transform.parent != null)
+            {
+                GameManager.Instance.PowerUpScore += 10.0f;
+                StartCoroutine(thief.SpeedUp(1.0f));
+                thief.IsLeft = true;
+                thief.StealStreak = true;
+                People hitObj = leftHandSideCollider[0].GetComponent<People>();
+                hitObj.transform.parent = null;
+                hitObj.IsNervous = true;
+
+            }
         }
         else if (leftHandSideCollider.Length == 0 && bothHandCollider.Length == 0)
         {
             thief.IsLeft = false;
+            thief.StealStreak = false;
+
         }
         if (rightHandSideCollider.Length > 0)
         {
-            thief.IsRight = true;
-            People hitObj = rightHandSideCollider[0].GetComponent<People>();
-            hitObj.transform.parent = null;
-            hitObj.IsNervous = true;
-            //hitObj.IsChasing = true;
+            if (rightHandSideCollider[0].gameObject.transform.parent != null)
+            {
+                GameManager.Instance.PowerUpScore += 10.0f;
+                StartCoroutine(thief.SpeedUp(1.0f));
+                thief.IsRight = true;
+                thief.StealStreak = true;
+                People hitObj = rightHandSideCollider[0].GetComponent<People>();
+                hitObj.transform.parent = null;
+                hitObj.IsNervous = true;
+            }
         }
         else if (rightHandSideCollider.Length == 0 && bothHandCollider.Length == 0)
         {
             thief.IsRight = false;
+            thief.StealStreak = false;
         }
     }
 }

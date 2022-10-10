@@ -4,28 +4,39 @@ using UnityEngine;
 
 public class PeopleAnimationStateController : MonoBehaviour
 {
-    private People People;
+    private People people;
+
     private Animator animator;
 
-    // Start is called before the first frame update
+    private string[] animParamaters = { "idle1", "idle2", "idle3", "idle4", "talk1", "talk2" };
     void Start()
     {
         animator = GetComponent<Animator>();
-        People = GetComponent<People>();
+        people = GetComponent<People>();
+        SetStartAnimations();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (People.IsNervous == true)
+        if (people.IsNervous == true)
         {
             animator.SetBool("isNervous", true);
         }
 
-        //if (People.IsChasing == true)
-        //{
-        //    animator.SetBool("isChasing", true);
-        //    animator.SetBool("isNervous", false);
-        //}
+        if (people.IsChasing == true)
+        {
+            animator.SetBool("isChasing", true);
+        }
+    }
+
+    private void SetStartAnimations()
+    {
+        for (int i = 0; i < animParamaters.Length; i++)
+        {
+            if ((int)people.StartAnimation == i)
+            {
+                animator.SetBool(animParamaters[i], true);
+            }
+        }
     }
 }

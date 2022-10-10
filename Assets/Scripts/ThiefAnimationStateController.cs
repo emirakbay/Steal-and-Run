@@ -7,14 +7,12 @@ public class ThiefAnimationStateController : MonoBehaviour
     private Thief Thief;
     private Animator animator;
 
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         Thief = GetComponent<Thief>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         CheckandSetThiefAnimation();
@@ -52,6 +50,15 @@ public class ThiefAnimationStateController : MonoBehaviour
         else
         {
             animator.SetBool("isRight", false);
+        }
+
+        if (Thief.IsSprinting == true)
+        {
+            animator.SetBool("isSprint", true);
+        }
+        else
+        {
+            animator.SetBool("isSprint", false);
         }
     }
 }

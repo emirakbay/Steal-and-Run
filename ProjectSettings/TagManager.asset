@@ -8,6 +8,14 @@ TagManager:
   - People
   - Obstacle
   - Tether
+  - FinishLine
+  - PowerUp
+  - SpeedUp
+  - Ragdoll
+  - Wall
+  - ObstacleWall
+  - Button
+  - UIPowerBar
   layers:
   - Default
   - TransparentFX
@@ -20,8 +28,8 @@ TagManager:
   - 
   - 
   - People
-  - TetherOn
-  - TetherOff
+  - Tether
+  - 
   - 
   - 
   - 

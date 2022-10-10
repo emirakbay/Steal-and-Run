@@ -4,27 +4,20 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float horizontalSpeed;
     [SerializeField] private float verticalSpeed;
     [SerializeField] private float slidingFactor;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private float sprintSpeed;
 
     private Vector3 moveDirection;
 
     private CharacterController controller;
 
-    private Thief thief;
-
-    public Vector3 MoveDirection { get => moveDirection; set => moveDirection = value; }
-
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-
-        //sthief
-
-
     }
+
     private void Update()
     {
         if (GameManager.Instance.HasGameStarted == true)
@@ -35,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GameManager.Instance.HasGameStarted == true)
+        if (GameManager.Instance.HasGameStarted == true && !GameManager.Instance.IsGameOver)
         {
             Move();
         }
@@ -43,10 +36,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-
         float moveX = Input.GetAxis("Horizontal");
 
-        MoveDirection = new Vector3(moveX * slidingFactor, 0, verticalSpeed * Time.deltaTime);
+        if (GetComponent<Thief>().IsSprinting)
+        {
+            MoveDirection = new Vector3(moveX * slidingFactor, 0, sprintSpeed * Time.deltaTime);
+        }
+
+        else
+        {
+            MoveDirection = new Vector3(moveX * slidingFactor, 0, VerticalSpeed * Time.deltaTime);
+        }
 
         controller.Move(MoveDirection);
 
@@ -60,18 +60,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-
-
-    //    // player dead
-    //    // enable ragdoll body
-
-
-
-    //    Debug.Log("collided");
-    //    Debug.Log(other.gameObject.name);
-
-
-    //}
+    public Vector3 MoveDirection { get => moveDirection; set => moveDirection = value; }
+    public float VerticalSpeed { get => verticalSpeed; set => verticalSpeed = value; }
 }
