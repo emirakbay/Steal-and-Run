@@ -4,18 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - New tag
-  - People
-  - Obstacle
-  - Tether
-  - FinishLine
-  - PowerUp
-  - SpeedUp
-  - Ragdoll
-  - Wall
-  - ObstacleWall
-  - Button
-  - UIPowerBar
+  - Shootable
   layers:
   - Default
   - TransparentFX
@@ -25,10 +14,10 @@ TagManager:
   - UI
   - 
   - 
+  - Lighting
+  - Ground
+  - Postprocessing
   - 
-  - 
-  - People
-  - Tether
   - 
   - 
   - 
@@ -50,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Fire
+    uniqueID: 3804908061
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -82,9 +82,9 @@ public class Thief : MonoBehaviour
     public IEnumerator SpeedUp(float boostTime)
     {
         IsSprinting = true;
-        GetComponent<ThiefParticleController>().PlaySpeedUpParticle();
+        GetComponent<ThiefParticleController>().SpeedUpParticleController(true);
         yield return new WaitForSeconds(boostTime);
-        GetComponent<ThiefParticleController>().StopSpeedUpParticle();
+        GetComponent<ThiefParticleController>().SpeedUpParticleController(false);
         IsSprinting = false;
     }
 }

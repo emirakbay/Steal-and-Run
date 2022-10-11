@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -71,24 +70,22 @@ public class GameManager : MonoBehaviour
 
     private void UpdatePowerUpScore()
     {
-        if (powerUpSlider.value >= powerUpSlider.maxValue)
+        if (powerUpSlider.value == powerUpSlider.maxValue)
         {
+            thief.GetComponent<ThiefParticleController>().ExplosionParticleController(true);
             powerUpScore = 0;
         }
 
         else if (powerUpSlider.value <= 0)
         {
-            print("0 point");
         }
 
-        print("update score");
-        float currentScore = Mathf.SmoothDamp(powerUpSlider.value, powerUpScore, ref powerUpVelocity, 50 * Time.deltaTime);
+        float currentScore = Mathf.SmoothDamp(powerUpSlider.value, powerUpScore, ref powerUpVelocity, 100 * Time.deltaTime);
         powerUpSlider.value = currentScore;
     }
 
     private void DecreaseSlider()
     {
-        print("decrase score");
         powerUpScore -= 2.5f * Time.deltaTime;
     }
 
