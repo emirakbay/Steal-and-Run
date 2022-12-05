@@ -27,15 +27,33 @@ public class PeopleAnimationStateController : MonoBehaviour
         {
             animator.SetBool("isChasing", true);
         }
+
+        else if (people.IsChasing == false)
+        {
+            animator.SetBool("isChasing", false);
+        }
+
+        if (people.IsActive == false)
+        {
+            animator.SetBool("isFinished", true);
+        }
     }
 
     private void SetStartAnimations()
     {
-        for (int i = 0; i < animParamaters.Length; i++)
+        if (people.IsWalking)
         {
-            if ((int)people.StartAnimation == i)
+            animator.SetBool("isWalking", true);
+        }
+
+        else
+        {
+            for (int i = 0; i < animParamaters.Length; i++)
             {
-                animator.SetBool(animParamaters[i], true);
+                if ((int)people.StartAnimation == i)
+                {
+                    animator.SetBool(animParamaters[i], true);
+                }
             }
         }
     }

@@ -6,33 +6,8 @@ public class PeopleRagdollController : MonoBehaviour
 {
     void Start()
     {
-        //foreach (Collider coll in GetComponentsInChildren<Collider>())
-        //{
-        //    if (coll.CompareTag("Ragdoll"))
-        //    {
-        //        if (coll.GetComponent<BoxCollider>() != null)
-        //        {
-        //            coll.GetComponent<BoxCollider>().isTrigger = true;
-        //        }
-
-        //        if (coll.GetComponent<CapsuleCollider>() != null)
-        //        {
-        //            coll.GetComponent<CapsuleCollider>().isTrigger = true;
-        //        }
-        //    }
-
-        //}
-
         setRigidbodyState(true);
         setColliderState(false);
-    }
-
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            OnDie();
-        }
     }
 
     private void setRigidbodyState(bool state)
@@ -50,6 +25,25 @@ public class PeopleRagdollController : MonoBehaviour
         }
     }
 
+    private void ApplyForceOnDeath(float forceValue)
+    {
+        Rigidbody[] bones = GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody bone in bones)
+        {
+            bone.AddForce(transform.right * forceValue);
+        }
+    }
+
+    private void ApplyForceToLastPerson(float forceValue)
+    {
+        Rigidbody[] bones = GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody bone in bones)
+        {
+            bone.AddForce(0, 0, forceValue, ForceMode.Impulse);
+        }
+    }
 
     private void setColliderState(bool state)
     {
@@ -61,10 +55,21 @@ public class PeopleRagdollController : MonoBehaviour
         GetComponent<Collider>().enabled = !state;
     }
 
-    private void OnDie()
+    public void OnDie(Transform t, float forceValue)
     {
         GetComponent<Animator>().enabled = false;
         setRigidbodyState(false);
         setColliderState(true);
+        //GetComponent<CharacterController>().enabled = false;
+
+        if (t.CompareTag("Mace"))
+        {
+            ApplyForceOnDeath(forceValue);
+        }
+
+        if (t.CompareTag("Player"))
+        {
+            ApplyForceToLastPerson(forceValue);
+        }
     }
 }

@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using System.Linq;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -10,80 +10,66 @@ public class People : MonoBehaviour
     private bool isChasing = false;
     private bool isNervous = false;
     private bool isDead = false;
+    private bool isActive = true;
+    [SerializeField]
+    private bool isWalking = false;
+    [SerializeField]
+    private bool onBonusGround = false;
+    [SerializeField]
+    private bool isLastPerson = false;
 
-    private bool rotating = false;
-
-    private float speed = 50.0f;
-    private float rotationTime;
-
-    CharacterController _controller;
-    Transform targetTransform;
-    GameObject Player;
-
-    float rotateSpeed = 0.1f;
-    float timeCount = 0.0f;
-
-    private Vector3 relativePos;
-    private Quaternion targetRotation;
+    private float walkSpeed = 2.0f;
+    private float rotateSpeed = 0.1f;
+    private float timeCount = 0.0f;
 
     public Transform target;
-    private AnimationClip[] clips;
-    private Animator animator;
 
     private StartAnimation startAnimation;
 
-    private int cash = 0;
-
     public Transform player;
-    protected NavMeshAgent mesh;
 
+    protected NavMeshAgent mesh;
 
     private void Start()
     {
-        //Player = GameObject.FindWithTag("Player");
-        //target = Player.transform;
-        //_controller = GetComponent<CharacterController>();
-        //_controller.enabled = true;
-
         mesh = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        Vector3 moveDir = FindObjectOfType<PlayerMovement>().MoveDirection;
+        //Vector3 moveDir = FindObjectOfType<PlayerMovement>().MoveDirection;
         if (IsNervous)
             Rotate();
 
-        if (IsChasing)
+        if (IsChasing && !IsDead && !OnBonusGround)
         {
-            //Vector3 direction = target.position - transform.position;
-
-            //direction = direction.normalized;
-
-            //Vector3 velocity = direction * speed;
-
-            //_controller.Move(velocity * Time.deltaTime);
-
-
-            mesh.destination = GameObject.FindWithTag("Player").transform.position;
-
-            //if (moveDir != Vector3.zero)
-            //{
-            //    transform.position += moveDir * speed * Time.deltaTime;
-
-            //    transform.forward = moveDir;
-
-            //    Quaternion toRotation = Quaternion.LookRotation(moveDir, Vector3.up);
-
-            //    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, speed * Time.deltaTime);
-
-            //}
+            if (GetComponent<NavMeshAgent>().enabled)
+            {
+                mesh.destination = GameObject.FindWithTag("Player").transform.position;
+            }
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        //print(other.gameObject);
+        if (IsDead)
+        {
+            if (GetComponent<NavMeshAgent>())
+                GetComponent<NavMeshAgent>().enabled = false;
+        }
+
+        if (!IsActive)
+        {
+            IsChasing = false;
+            GetComponent<NavMeshAgent>().enabled = false;
+        }
+
+        if (IsWalking)
+        {
+            Move();
+        }
+
+        //if (Input.GetKey(KeyCode.Space))
+        //{
+        //    GetComponent<PeopleRagdollController>().OnDie(transform);
+        //}
     }
 
     private void Awake()
@@ -93,34 +79,40 @@ public class People : MonoBehaviour
 
     public void Rotate()
     {
-        //relativePos = target.position + transform.position;
-        //targetRotation = Quaternion.LookRotation(-relativePos);
-        //rotating = true;
-
-        //if (rotating)
-        //{
-        //    rotationTime += Time.deltaTime * 5.0f;
-        //    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationTime * Time.deltaTime);
-        //}
         transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, timeCount * rotateSpeed);
-        timeCount = timeCount + Time.deltaTime;
+        timeCount += Time.deltaTime;
     }
 
     private void SurprisedAnimStopEvent()
     {
-        IsChasing = true;
-        GetComponent<Collider>().isTrigger = false;
-        //GetComponent<CharacterController>().enabled = true;
+        if (!OnBonusGround)
+            IsChasing = true;
+        //GetComponent<Collider>().isTrigger = false;
     }
 
     private void AssignRandomStartAnim()
     {
         startAnimation = (StartAnimation)Random.Range(0, (float)Enum.GetValues(typeof(StartAnimation)).Cast<StartAnimation>().Max());
+    }
 
+    public IEnumerator DeactivateCollider(int seconds)
+    {
+        GetComponent<Collider>().enabled = false;
+        yield return new WaitForSeconds(seconds);
+        GetComponent<Collider>().enabled = true;
+    }
+
+    private void Move()
+    {
+        transform.Translate(Vector3.forward * Time.deltaTime * walkSpeed);
     }
 
     public bool IsChasing { get => isChasing; set => isChasing = value; }
     public bool IsNervous { get => isNervous; set => isNervous = value; }
+    public bool IsDead { get => isDead; set => isDead = value; }
+    public bool IsActive { get => isActive; set => isActive = value; }
+    public bool IsWalking { get => isWalking; set => isWalking = value; }
+    public bool OnBonusGround { get => onBonusGround; set => onBonusGround = value; }
     public StartAnimation StartAnimation { get => startAnimation; set => startAnimation = value; }
 }
 

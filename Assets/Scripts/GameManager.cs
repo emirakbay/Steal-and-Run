@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,11 +18,9 @@ public class GameManager : MonoBehaviour
 
     private float powerUpVelocity;
 
-    private float powerLow;
+    private int moneyScore = 0;
 
-    private Thief thief;
-
-    private bool discharge = false;
+    public TextMeshProUGUI scoreText;
 
     public static GameManager Instance
     {
@@ -37,11 +36,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
-        thief = FindObjectOfType<Thief>();
     }
 
     private void Update()
@@ -60,27 +54,35 @@ public class GameManager : MonoBehaviour
         {
             UpdatePowerUpScore();
             DecreaseSlider();
+            UpdateScore();
         }
     }
 
     public void GameOver(bool flag)
     {
         IsGameOver = flag;
+        DeactivateChasingPeople();
+    }
+
+    private void DeactivateChasingPeople()
+    {
+        GameObject[] peoples = GameObject.FindGameObjectsWithTag("People");
+
+        foreach (GameObject people in peoples)
+        {
+            people.GetComponent<People>().IsActive = false;
+        }
     }
 
     private void UpdatePowerUpScore()
     {
-        if (powerUpSlider.value == powerUpSlider.maxValue)
+        if (powerUpSlider.value >= powerUpSlider.maxValue)
         {
-            thief.GetComponent<ThiefParticleController>().ExplosionParticleController(true);
+            StartCoroutine(FindObjectOfType<Thief>().SpeedUpExplosionBoost());
             powerUpScore = 0;
         }
 
-        else if (powerUpSlider.value <= 0)
-        {
-        }
-
-        float currentScore = Mathf.SmoothDamp(powerUpSlider.value, powerUpScore, ref powerUpVelocity, 100 * Time.deltaTime);
+        float currentScore = Mathf.SmoothDamp(powerUpSlider.value, powerUpScore, ref powerUpVelocity, 10 * Time.deltaTime);
         powerUpSlider.value = currentScore;
     }
 
@@ -89,7 +91,13 @@ public class GameManager : MonoBehaviour
         powerUpScore -= 2.5f * Time.deltaTime;
     }
 
+    private void UpdateScore()
+    {
+        scoreText.text = moneyScore.ToString();
+    }
+
     public bool IsGameOver { get => isGameOver; set => isGameOver = value; }
     public bool HasGameStarted { get => hasGameStarted; set => hasGameStarted = value; }
     public float PowerUpScore { get => powerUpScore; set => powerUpScore = value; }
+    public int MoneyScore { get => moneyScore; set => moneyScore = value; }
 }

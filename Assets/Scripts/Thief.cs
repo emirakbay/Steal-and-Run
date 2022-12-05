@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Thief : MonoBehaviour
 {
@@ -7,15 +8,13 @@ public class Thief : MonoBehaviour
 
     private bool isRunning = false;
     private bool isSprinting = false;
+    private bool isSuperFast = false;
     private bool isStealing = false;
     private bool isDead = false;
     private bool isLeft = false;
     private bool isRight = false;
+    private bool isLast = false;
 
-    private bool stealStreak;
-
-
-    public bool StealStreak { get => stealStreak; set => stealStreak = value; }
     public int CurrentCash { get => currentCash; set => currentCash = value; }
     public bool IsRunning { get => isRunning; set => isRunning = value; }
     public bool IsStealing { get => isStealing; set => isStealing = value; }
@@ -23,15 +22,13 @@ public class Thief : MonoBehaviour
     public bool IsRight { get => isRight; set => isRight = value; }
     public bool IsDead { get => isDead; set => isDead = value; }
     public bool IsSprinting { get => isSprinting; set => isSprinting = value; }
+    public bool IsSuperFast { get => isSuperFast; set => isSuperFast = value; }
+    public bool IsLast { get => isLast; set => isLast = value; }
 
     private void Start()
     {
         setRigidbodyState(true);
         setColliderState(false);
-    }
-
-    private void Update()
-    {
     }
 
     private void Die()
@@ -70,12 +67,42 @@ public class Thief : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.CompareTag("Obstacle"))
+        if (other.CompareTag("Grinder"))
         {
             IsDead = true;
             Die();
             GameManager.Instance.GameOver(true);
+        }
+
+        if (other.CompareTag("Finish"))
+        {
+            GameObject[] peoples = GameObject.FindGameObjectsWithTag("People");
+
+            foreach (GameObject people in peoples)
+            {
+                people.GetComponent<People>().IsActive = false;
+            }
+        }
+
+        if (other.CompareTag("SpeedUp"))
+        {
+            StartCoroutine(SpeedUp(5.0f));
+        }
+
+        //if (other.CompareTag("LastPerson"))
+        //{
+        //    print(GameManager.Instance.PowerUpScore);
+        //    IsLast = true;
+        //    other.gameObject.GetComponent<People>().IsDead = true;
+        //    other.GetComponent<PeopleRagdollController>().OnDie(transform, 50.0f);
+        //}
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("SpeedUp"))
+        {
+            StartCoroutine(SpeedUp(5.0f));
         }
     }
 
@@ -86,5 +113,19 @@ public class Thief : MonoBehaviour
         yield return new WaitForSeconds(boostTime);
         GetComponent<ThiefParticleController>().SpeedUpParticleController(false);
         IsSprinting = false;
+    }
+
+
+    public IEnumerator SpeedUpExplosionBoost()
+    {
+        IsSuperFast = true;
+        GetComponent<ThiefParticleController>().ExplosionSparksController(true);
+        GetComponent<ThiefParticleController>().SpeedUpParticleController(true);
+        GetComponent<ThiefParticleController>().ExplosionParticleController(true);
+        yield return new WaitForSeconds(5.0f);
+        GetComponent<ThiefParticleController>().ExplosionSparksController(false);
+        GetComponent<ThiefParticleController>().SpeedUpParticleController(false);
+        GetComponent<ThiefParticleController>().ExplosionParticleController(false);
+        IsSuperFast = false;
     }
 }

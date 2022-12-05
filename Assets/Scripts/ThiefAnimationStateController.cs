@@ -56,9 +56,31 @@ public class ThiefAnimationStateController : MonoBehaviour
         {
             animator.SetBool("isSprint", true);
         }
-        else
+        else if (Thief.IsSprinting == false)
         {
             animator.SetBool("isSprint", false);
         }
+
+        if (Thief.IsSuperFast == true)
+        {
+            animator.SetBool("stealBoost", true);
+        }
+        else if (Thief.IsSuperFast == false)
+        {
+            animator.SetBool("stealBoost", false);
+        }
+
+        if (Thief.IsLast == true)
+        {
+            animator.SetBool("isLast", true);
+            //print("is last animation controoler");
+            //StartCoroutine(WaitAndKick());
+        }
+    }
+
+    public IEnumerator WaitAndKick()
+    {
+        yield return new WaitForSeconds(1.0f);
+        animator.SetBool("isLast", true);
     }
 }
