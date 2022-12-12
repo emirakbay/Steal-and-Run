@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class GameManager : MonoBehaviour
 
     private bool isGameOver = false;
 
+    private bool hasPassedFinishLine = false;
+
+    private bool isLevelFinished = false;
+
     [SerializeField]
     private Slider powerUpSlider;
 
@@ -18,9 +23,15 @@ public class GameManager : MonoBehaviour
 
     private float powerUpVelocity;
 
+    private float restartDelay = 2.5f;
+
+    private float loadNextLevelDelay = 3.5f;
+
     private int moneyScore = 0;
 
     public TextMeshProUGUI scoreText;
+
+    public CinemachineVirtualCamera levelEndCam;
 
     public static GameManager Instance
     {
@@ -36,15 +47,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        PowerUpScore = powerUpSlider.value;
     }
 
     private void Update()
     {
-        if (isGameOver && Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-
         if (Input.anyKeyDown)
         {
             hasGameStarted = true;
@@ -58,10 +66,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void EndGame()
+    {
+        IsGameOver = true;
+        print("game over");
+        Invoke(nameof(Restart), restartDelay);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void GameOver(bool flag)
     {
         IsGameOver = flag;
         DeactivateChasingPeople();
+        EndGame();
+    }
+
+    public void LevelComplete()
+    {
+        IsLevelFinished = true;
+        Invoke(nameof(LoadNextLevel), loadNextLevelDelay);
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void LevelEndCamera()
+    {
+        levelEndCam.Priority += 1;
     }
 
     private void DeactivateChasingPeople()
@@ -76,7 +113,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdatePowerUpScore()
     {
-        if (powerUpSlider.value >= powerUpSlider.maxValue)
+        if (powerUpSlider.value >= powerUpSlider.maxValue && !HasPassedFinishLine)
         {
             StartCoroutine(FindObjectOfType<Thief>().SpeedUpExplosionBoost());
             powerUpScore = 0;
@@ -100,4 +137,6 @@ public class GameManager : MonoBehaviour
     public bool HasGameStarted { get => hasGameStarted; set => hasGameStarted = value; }
     public float PowerUpScore { get => powerUpScore; set => powerUpScore = value; }
     public int MoneyScore { get => moneyScore; set => moneyScore = value; }
+    public bool HasPassedFinishLine { get => hasPassedFinishLine; set => hasPassedFinishLine = value; }
+    public bool IsLevelFinished { get => isLevelFinished; set => isLevelFinished = value; }
 }

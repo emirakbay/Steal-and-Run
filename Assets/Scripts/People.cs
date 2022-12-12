@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -61,10 +62,12 @@ public class People : MonoBehaviour
             GetComponent<NavMeshAgent>().enabled = false;
         }
 
-        if (IsWalking)
+        if (IsWalking && GameManager.Instance.HasGameStarted)
         {
             Move();
         }
+
+        CheckDistance();
 
         //if (Input.GetKey(KeyCode.Space))
         //{
@@ -100,6 +103,24 @@ public class People : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(seconds);
         GetComponent<Collider>().enabled = true;
+    }
+
+    private void CheckDistance()
+    {
+        if (IsChasing)
+        {
+            float distance = Vector3.Distance(transform.position, GameObject.FindWithTag("Player").transform.position);
+
+            if (distance < 5.0f)
+            {
+                GameObject.FindWithTag("Player").GetComponent<PeopleRagdollController>().ActivateThiefRagdoll();
+                GameObject[] peoples = GameObject.FindGameObjectsWithTag("People");
+                foreach (GameObject people in peoples)
+                {
+                    people.GetComponent<People>().IsActive = false;
+                }
+            }
+        }
     }
 
     private void Move()

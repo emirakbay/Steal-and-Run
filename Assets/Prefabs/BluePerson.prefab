@@ -59,7 +59,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &6055492206032308313
@@ -169,7 +169,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &6385024163076530130
@@ -279,7 +279,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &1454015123406368559
@@ -389,7 +389,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &2478423211143945075
@@ -450,6 +450,8 @@ GameObject:
   - component: {fileID: 7446932234572509778}
   - component: {fileID: 6315924704374612957}
   - component: {fileID: 1567076346628223257}
+  - component: {fileID: 8243262253688546909}
+  - component: {fileID: 4041404527632233015}
   m_Layer: 7
   m_Name: BluePerson
   m_TagString: LastPerson
@@ -518,6 +520,35 @@ CapsuleCollider:
   m_Height: 9.1
   m_Direction: 1
   m_Center: {x: 0, y: 4.5, z: 0}
+--- !u!114 &8243262253688546909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2465799931642871508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f057aabb0faa75047baa4171ee057bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4041404527632233015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2465799931642871508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a1f2aad6c14d6d4db7f93b212c1e25d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWalking: 0
+  onBonusGround: 1
+  isLastPerson: 1
+  target: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &3047174572403218697
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,6 +591,7 @@ GameObject:
   - component: {fileID: 4167723078007491013}
   - component: {fileID: 6736562226201174441}
   - component: {fileID: 2883405387726771848}
+  - component: {fileID: 2814546733389608193}
   m_Layer: 7
   m_Name: spine.002
   m_TagString: Untagged
@@ -590,10 +622,10 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3147996888527093095}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.49, y: 1.96, z: 0.93}
+  m_Size: {x: 2.03, y: 2.44, z: 1.39}
   m_Center: {x: 0, y: 0.7713368, z: 0.04809308}
 --- !u!54 &6736562226201174441
 Rigidbody:
@@ -608,7 +640,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &2883405387726771848
@@ -657,6 +689,19 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2814546733389608193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3147996888527093095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fda2018bc7449774e9a35e5d20212d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spineTransform: {fileID: 8640867533402371416}
 --- !u!1 &3523609324660847380
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,7 +763,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &4667454688113862942
@@ -828,7 +873,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &5067465745786155453
@@ -968,7 +1013,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &3071182583750957797
@@ -1217,7 +1262,7 @@ GameObject:
   - component: {fileID: 8169493575825722373}
   m_Layer: 7
   m_Name: spine
-  m_TagString: Untagged
+  m_TagString: LastPersonSpine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1230,7 +1275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6403460278716487307}
   m_LocalRotation: {x: 0.7904554, y: -0.00000007301801, z: -0.00000009422961, w: 0.6125196}
-  m_LocalPosition: {x: -0, y: 0.22802699, z: 3.7876747}
+  m_LocalPosition: {x: 0, y: 0.22802699, z: 3.7876747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4154062981971022334}
@@ -1267,8 +1312,8 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
+  m_Interpolate: 1
+  m_Constraints: 2
   m_CollisionDetection: 0
 --- !u!1 &6429547588938410431
 GameObject:
@@ -1393,7 +1438,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &6775315996958972747
@@ -1492,7 +1537,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 81d94a5759bf826448c1e179c764f1fd, type: 2}
+  - {fileID: 2100000, guid: dd4a622b97cf6e04693a11f9a956dafe, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1669,7 +1714,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!144 &3040263551818843877

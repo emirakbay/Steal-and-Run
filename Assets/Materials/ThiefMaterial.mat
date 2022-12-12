@@ -173,7 +173,7 @@ Material:
     - _Mode: 0
     - _NormalMapIntensity: 1
     - _OcclusionStrength: 1
-    - _OptionsTab: 0
+    - _OptionsTab: 1
     - _Outline: 1
     - _OutlineData: 1
     - _OutlineFadeMax: 2

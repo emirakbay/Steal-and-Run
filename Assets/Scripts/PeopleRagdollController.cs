@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PeopleRagdollController : MonoBehaviour
@@ -41,7 +39,7 @@ public class PeopleRagdollController : MonoBehaviour
 
         foreach (Rigidbody bone in bones)
         {
-            bone.AddForce(0, 0, forceValue, ForceMode.Impulse);
+            bone.AddForce(0, forceValue / 1.5f, forceValue * 1.15f, ForceMode.Impulse);
         }
     }
 
@@ -71,5 +69,13 @@ public class PeopleRagdollController : MonoBehaviour
         {
             ApplyForceToLastPerson(forceValue);
         }
+    }
+
+
+    public void ActivateThiefRagdoll()
+    {
+        GetComponent<Animator>().enabled = false;
+        setRigidbodyState(false);
+        setColliderState(true);
     }
 }

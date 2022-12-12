@@ -17,6 +17,9 @@ TagManager:
   - LeftHand
   - LastPerson
   - KickAreaCollider
+  - LastPersonSpine
+  - BonusCube
+  - BonusCubeSides
   layers:
   - Default
   - TransparentFX

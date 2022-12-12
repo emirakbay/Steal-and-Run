@@ -76,6 +76,8 @@ public class Thief : MonoBehaviour
 
         if (other.CompareTag("Finish"))
         {
+            GameManager.Instance.HasPassedFinishLine = true;
+
             GameObject[] peoples = GameObject.FindGameObjectsWithTag("People");
 
             foreach (GameObject people in peoples)

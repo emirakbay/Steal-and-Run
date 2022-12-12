@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 
 public class SensePeople : MonoBehaviour
 {
@@ -99,11 +98,11 @@ public class SensePeople : MonoBehaviour
                 if (collider.CompareTag("KickAreaCollider"))
                 {
                     GetComponent<Thief>().IsLast = true;
+                    GameManager.Instance.LevelEndCamera();
                 }
 
                 if (collider.CompareTag("LastPerson"))
                 {
-                    print(GameManager.Instance.PowerUpScore);
                     collider.gameObject.GetComponent<People>().IsDead = true;
 
                     if (GameManager.Instance.MoneyScore < 0)
@@ -113,7 +112,7 @@ public class SensePeople : MonoBehaviour
 
                     else
                     {
-                        collider.GetComponent<PeopleRagdollController>().OnDie(transform, GameManager.Instance.PowerUpScore * 1.5f);
+                        collider.GetComponent<PeopleRagdollController>().OnDie(transform, GameManager.Instance.PowerUpScore);
                     }
                 }
             }

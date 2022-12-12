@@ -15,6 +15,11 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController controller;
 
+    private bool rotateFlag = false;
+
+    private float rotateSpeed = 0.5f;
+    private float timeCount = 0.0f;
+
     //values that will be set in the Inspector
     public Transform target;
     public float lastRotationSpeed;
@@ -49,14 +54,21 @@ public class PlayerMovement : MonoBehaviour
 
             MoveTowardsTarget(lastPerson.transform.position);
 
-            //find the vector pointing from our position to the target
-            _direction = (target.position - transform.position).normalized;
+            ////find the vector pointing from our position to the target
+            //_direction = (target.position - transform.position).normalized;
 
-            //create the rotation we need to be in to look at the target
-            _lookRotation = Quaternion.LookRotation(_direction);
+            ////create the rotation we need to be in to look at the target
+            //_lookRotation = Quaternion.LookRotation(_direction);
 
-            //rotate us over time according to speed until we are in the required rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * lastRotationSpeed);
+            ////rotate us over time according to speed until we are in the required rotation
+            //transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * lastRotationSpeed);
+        }
+
+        if (rotateFlag)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 60f, 0), timeCount * rotateSpeed);
+            timeCount += Time.deltaTime;
+            //rotateFlag = false;
         }
 
         //if (GameManager.Instance.HasGameStarted == true && !GameManager.Instance.IsGameOver)
@@ -104,6 +116,11 @@ public class PlayerMovement : MonoBehaviour
             offset = offset.normalized * verticalSpeed;
             controller.Move(offset * Time.deltaTime);
         }
+    }
+
+    void Rotate()
+    {
+        rotateFlag = true;
     }
 
     public Vector3 MoveDirection { get => moveDirection; set => moveDirection = value; }
