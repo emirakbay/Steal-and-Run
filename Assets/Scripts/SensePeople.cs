@@ -14,6 +14,7 @@ public class SensePeople : MonoBehaviour
     public Vector3 bothHandColliderOffset;
 
     public GameObject moneyParticle;
+    public Score score;
 
     private void Awake()
     {
@@ -62,7 +63,8 @@ public class SensePeople : MonoBehaviour
                         hitObj.IsNervous = true;
                         StartCoroutine(thief.SpeedUp(3.0f));
                         GameManager.Instance.PowerUpScore += .5f;
-                        GameManager.Instance.MoneyScore += UnityEngine.Random.Range(1, 2);
+                        score.Value += UnityEngine.Random.Range(1, 2);
+                        //GameManager.Instance.MoneyScore += UnityEngine.Random.Range(1, 2);
                         if (collider.transform.position.x > transform.position.x)
                         {
                             thief.IsRight = true;
@@ -90,8 +92,8 @@ public class SensePeople : MonoBehaviour
                     Destroy(collider.gameObject);
                     thief.IsStealing = true;
                     GameManager.Instance.PowerUpScore += 11.0f;
-                    GameManager.Instance.MoneyScore += UnityEngine.Random.Range(5, 10);
-
+                    //GameManager.Instance.MoneyScore += UnityEngine.Random.Range(5, 10);
+                    score.Value += UnityEngine.Random.Range(5, 10);
                 }
 
                 // level end
@@ -99,6 +101,7 @@ public class SensePeople : MonoBehaviour
                 {
                     GetComponent<Thief>().IsLast = true;
                     GameManager.Instance.LevelEndCamera();
+                    GameManager.Instance.ToggleOffUI();
                 }
 
                 if (collider.CompareTag("LastPerson"))
@@ -133,13 +136,9 @@ public class SensePeople : MonoBehaviour
                 hitObj.transform.parent = null;
                 hitObj.IsNervous = true;
                 GameManager.Instance.PowerUpScore += .5f;
-                GameManager.Instance.MoneyScore += UnityEngine.Random.Range(1, 2);
+                //GameManager.Instance.MoneyScore += UnityEngine.Random.Range(1, 2);
+                score.Value += UnityEngine.Random.Range(1, 2);
                 thief.IsLeft = true;
-            }
-
-            else
-            {
-                GetComponent<Thief>().IsLast = true;
             }
 
             if (!thief.IsSprinting)
@@ -163,13 +162,10 @@ public class SensePeople : MonoBehaviour
                 hitObj.transform.parent = null;
                 hitObj.IsNervous = true;
                 GameManager.Instance.PowerUpScore += .5f;
-                GameManager.Instance.MoneyScore += UnityEngine.Random.Range(1, 2);
-                thief.IsRight = true;
-            }
+                //GameManager.Instance.MoneyScore += UnityEngine.Random.Range(1, 2);
+                score.Value += UnityEngine.Random.Range(1, 2);
 
-            else
-            {
-                GetComponent<Thief>().IsLast = true;
+                thief.IsRight = true;
             }
 
             if (!thief.IsSprinting)

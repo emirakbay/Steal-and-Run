@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Cinemachine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +32,12 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI scoreText;
 
+    public Score score;
+
+    public GameObject moneyScoreCanvas;
+    public GameObject levelProgressCanvas;
+
+
     public CinemachineVirtualCamera levelEndCam;
 
     public static GameManager Instance
@@ -47,12 +54,12 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
         PowerUpScore = powerUpSlider.value;
     }
 
     private void Update()
     {
+        UpdateScore();
         if (Input.anyKeyDown)
         {
             hasGameStarted = true;
@@ -62,15 +69,21 @@ public class GameManager : MonoBehaviour
         {
             UpdatePowerUpScore();
             DecreaseSlider();
-            UpdateScore();
         }
+    }
+
+    public void ToggleOffUI()
+    {
+        powerUpSlider.gameObject.SetActive(false);
+        moneyScoreCanvas.SetActive(false);
+        levelProgressCanvas.SetActive(false);
     }
 
     public void EndGame()
     {
         IsGameOver = true;
-        print("game over");
         Invoke(nameof(Restart), restartDelay);
+        StartCoroutine(RestartScore());
     }
 
     public void Restart()
@@ -93,7 +106,21 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (SceneManager.GetActiveScene().buildIndex + 1 == SceneManager.sceneCountInBuildSettings)
+        {
+            Restart();
+        }
+
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+
+    }
+
+    private void OnApplicationQuit()
+    {
+        score.Value = 0;
     }
 
     public void LevelEndCamera()
@@ -130,7 +157,13 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScore()
     {
-        scoreText.text = moneyScore.ToString();
+        scoreText.text = score.Value.ToString();
+    }
+
+    IEnumerator RestartScore()
+    {
+        yield return new WaitForSeconds(2.5f);
+        score.Value = 0;
     }
 
     public bool IsGameOver { get => isGameOver; set => isGameOver = value; }

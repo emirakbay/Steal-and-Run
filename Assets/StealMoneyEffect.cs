@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+//using DG.Tweening;
 
 public class StealMoneyEffect : MonoBehaviour
 {
@@ -86,15 +86,15 @@ public class StealMoneyEffect : MonoBehaviour
                 // move coin to the collected coin pos 
                 //money.transform.position = collectedMoneyPosition;
                 float duration = Random.Range(minAnimDuration, maxAnimDuration);
-                money.transform.DOMove(worldPos, duration)
-                    .SetEase(Ease.InSine)
-                    .OnComplete(() =>
-                    {
-                        money.SetActive(false);
-                        moneyQueue.Enqueue(money);
-                        // TODO
-                        // increase money count
-                    });
+                //money.transform.DOMove(worldPos, duration)
+                //    .SetEase(Ease.InSine)
+                //    .OnComplete(() =>
+                //    {
+                //        money.SetActive(false);
+                //        moneyQueue.Enqueue(money);
+                //        // TODO
+                //        // increase money count
+                //    });
             }
         }
     }

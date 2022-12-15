@@ -15,17 +15,30 @@ public class LastPersonCollideController : MonoBehaviour
 
     private float speed;
 
+    //private PeopleRagdollController ragdollController;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("BonusCube"))
         {
             collidedCubes.Add(other.gameObject);
         }
+
+        if (other.CompareTag("BonusEndCollider"))
+        {
+            Rigidbody[] bones = GetComponentsInChildren<Rigidbody>();
+
+            foreach (Rigidbody bone in bones)
+            {
+                bone.AddForce(0, -100f, 0, ForceMode.Impulse);
+            }
+        }
     }
 
     private void Start()
     {
         speed = 4.0f;
+        //ragdollController = GetComponent<PeopleRagdollController>();
     }
 
     private void Update()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
+//using DG.Tweening;
 
 
 public class MoveUI : MonoBehaviour
@@ -24,12 +24,12 @@ public class MoveUI : MonoBehaviour
             ////move towards the world space positions
             //transform.position = Vector3.MoveTowards(transform.position, worldPos, currentMoveSpeed);
 
-            transform.DOMove(worldPos, duration)
-                   .SetEase(Ease.InSine)
-                   .OnComplete(() =>
-                   {
-                       StartCoroutine(DestroyMoneyPack());
-                   });
+            //transform.DOMove(worldPos, duration)
+            //       .SetEase(Ease.InSine)
+            //       .OnComplete(() =>
+            //       {
+            //           StartCoroutine(DestroyMoneyPack());
+            //       });
 
             //.OnComplete(() =>
             //{

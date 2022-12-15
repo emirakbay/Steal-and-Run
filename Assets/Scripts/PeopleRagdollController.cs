@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR;
 
 public class PeopleRagdollController : MonoBehaviour
 {
@@ -39,7 +40,22 @@ public class PeopleRagdollController : MonoBehaviour
 
         foreach (Rigidbody bone in bones)
         {
-            bone.AddForce(0, forceValue / 1.5f, forceValue * 1.15f, ForceMode.Impulse);
+            if (forceValue < 20.0f)
+            {
+                bone.AddForce(0, forceValue, 30.0f, ForceMode.Impulse);
+            }
+
+            else if (forceValue > 110f)
+            {
+                //print("normal value: " + forceValue);
+                //print("normal value * 1.15f : " + forceValue * 1.15f);
+                bone.AddForce(0, 90f, 90f, ForceMode.Impulse);
+            }
+
+            else
+            {
+                bone.AddForce(0, forceValue / 1.5f, forceValue * 1.15f, ForceMode.Impulse);
+            }
         }
     }
 
@@ -70,7 +86,6 @@ public class PeopleRagdollController : MonoBehaviour
             ApplyForceToLastPerson(forceValue);
         }
     }
-
 
     public void ActivateThiefRagdoll()
     {

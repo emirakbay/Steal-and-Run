@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -19,14 +17,6 @@ public class PlayerMovement : MonoBehaviour
 
     private float rotateSpeed = 0.5f;
     private float timeCount = 0.0f;
-
-    //values that will be set in the Inspector
-    public Transform target;
-    public float lastRotationSpeed;
-
-    //values for internal use
-    private Quaternion _lookRotation;
-    private Vector3 _direction;
 
     private void Start()
     {
@@ -53,15 +43,6 @@ public class PlayerMovement : MonoBehaviour
             GameObject lastPerson = GameObject.FindGameObjectWithTag("LastPerson");
 
             MoveTowardsTarget(lastPerson.transform.position);
-
-            ////find the vector pointing from our position to the target
-            //_direction = (target.position - transform.position).normalized;
-
-            ////create the rotation we need to be in to look at the target
-            //_lookRotation = Quaternion.LookRotation(_direction);
-
-            ////rotate us over time according to speed until we are in the required rotation
-            //transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * lastRotationSpeed);
         }
 
         if (rotateFlag)
@@ -79,21 +60,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        float moveX = Input.GetAxis("Horizontal");
+        float pointer_x = Input.GetAxis("Mouse X");
 
         if (GetComponent<Thief>().IsSprinting)
         {
-            MoveDirection = new Vector3(moveX * slidingFactor, 0, sprintSpeed * Time.deltaTime);
+            MoveDirection = new Vector3(pointer_x * slidingFactor, 0, sprintSpeed * Time.deltaTime);
         }
 
         if (GetComponent<Thief>().IsSuperFast)
         {
-            MoveDirection = new Vector3(moveX * slidingFactor, 0, speedySpeed * Time.deltaTime);
+            MoveDirection = new Vector3(pointer_x * slidingFactor, 0, speedySpeed * Time.deltaTime);
         }
 
         else
         {
-            MoveDirection = new Vector3(moveX * slidingFactor, 0, VerticalSpeed * Time.deltaTime);
+            MoveDirection = new Vector3(pointer_x * slidingFactor, 0, VerticalSpeed * Time.deltaTime);
         }
 
         controller.Move(MoveDirection);
