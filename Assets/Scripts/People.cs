@@ -114,11 +114,12 @@ public class People : MonoBehaviour
             if (distance < 5.0f)
             {
                 GameObject.FindWithTag("Player").GetComponent<PeopleRagdollController>().ActivateThiefRagdoll();
-                GameObject[] peoples = GameObject.FindGameObjectsWithTag("People");
-                foreach (GameObject people in peoples)
-                {
-                    people.GetComponent<People>().IsActive = false;
-                }
+                //GameObject[] peoples = GameObject.FindGameObjectsWithTag("People");
+                //foreach (GameObject people in peoples)
+                //{
+                //    people.GetComponent<People>().IsActive = false;
+                //}
+                GameManager.Instance.GameOver(true);
             }
         }
     }

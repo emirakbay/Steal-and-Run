@@ -64,17 +64,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (GetComponent<Thief>().IsSprinting)
         {
-            MoveDirection = new Vector3(pointer_x * slidingFactor, 0, sprintSpeed * Time.deltaTime);
+            MoveDirection = new Vector3(pointer_x * slidingFactor * Time.deltaTime, 0, sprintSpeed * Time.deltaTime);
         }
 
         if (GetComponent<Thief>().IsSuperFast)
         {
-            MoveDirection = new Vector3(pointer_x * slidingFactor, 0, speedySpeed * Time.deltaTime);
+            MoveDirection = new Vector3(pointer_x * slidingFactor * Time.deltaTime, 0, speedySpeed * Time.deltaTime);
         }
 
         else
         {
-            MoveDirection = new Vector3(pointer_x * slidingFactor, 0, VerticalSpeed * Time.deltaTime);
+            MoveDirection = new Vector3(pointer_x * slidingFactor * Time.deltaTime, 0, VerticalSpeed * Time.deltaTime);
         }
 
         controller.Move(MoveDirection);
