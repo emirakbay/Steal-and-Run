@@ -10,22 +10,16 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
 
     private bool hasGameStarted = false;
-
     private bool isGameOver = false;
-
     private bool hasPassedFinishLine = false;
-
     private bool isLevelFinished = false;
 
     [SerializeField]
     private Slider powerUpSlider;
 
     private float powerUpScore;
-
     private float powerUpVelocity;
-
     private float restartDelay = 2.5f;
-
     private float loadNextLevelDelay = 3.5f;
 
     private int moneyScore = 0;

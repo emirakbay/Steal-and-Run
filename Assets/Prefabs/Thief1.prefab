@@ -497,12 +497,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   verticalSpeed: 15
-  slidingFactor: 0.3
+  slidingFactor: 1
   rotationSpeed: 1
   sprintSpeed: 20
   speedySpeed: 0
-  target: {fileID: 2986897372131435630, guid: 647b8302661eaba45940d52e2e28cf94, type: 3}
-  lastRotationSpeed: 1
+  horizontalSwipeConstant: 0
+  verticalSwipeConstant: 0
+  m_VerticalInputMultiplier: 0
+  m_HorizontalInputMultiplier: 1
+  m_ReferenceWidth: 1080
+  m_ReferenceHeight: 1920
 --- !u!114 &2658851342242836594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd793522f4866f4d9d9f63b425e409f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 2
 --- !u!114 &8469609737405302157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +569,7 @@ MonoBehaviour:
   rightHandColliderOffset: {x: 1.6, y: 2.2, z: 1}
   bothHandColliderOffset: {x: 0, y: 2.2, z: 2.5}
   moneyParticle: {fileID: 194316, guid: 46394a87d13cb2f478f84164da470282, type: 3}
+  score: {fileID: 0}
 --- !u!143 &1557338542642276370
 CharacterController:
   m_ObjectHideFlags: 0
